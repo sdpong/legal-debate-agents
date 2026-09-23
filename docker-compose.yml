@@ -1,0 +1,25 @@
+services:
+  api:
+    build: .
+    env_file: .env
+    environment:
+      AUTHORITY_STORE_PATH: /app/data/authorities.json
+      EVIDENCE_STORE_PATH: /var/legal-debate/evidence
+      AUDIT_STORE_PATH: /var/legal-debate/audit
+    volumes:
+      - legal_debate_state:/var/legal-debate
+    restart: unless-stopped
+
+  web:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./web:/usr/share/nginx/html/legal-debate:ro
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "127.0.0.1:8188:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  legal_debate_state:

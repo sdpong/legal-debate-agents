@@ -1,0 +1,4 @@
+# Add this inside the existing app.nonsoft.com site block, then reload Caddy.
+handle /legal-debate* {
+  reverse_proxy 127.0.0.1:8188
+}

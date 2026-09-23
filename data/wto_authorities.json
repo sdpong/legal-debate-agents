@@ -1,0 +1,83 @@
+[
+  {
+    "authority_id": "WTO-DSU-1",
+    "title": "Understanding on Rules and Procedures Governing the Settlement of Disputes (DSU)",
+    "article": "Article 1",
+    "excerpt": "适用范围：适用于 DSU 附录一所列协定项下提出的争端，并受相关协定特别或附加程序规则约束。",
+    "effective_status": "effective",
+    "official_url": "https://www-server1.wto.org/english/docs_e/legal_e/dsu_e.htm",
+    "jurisdiction": "wto"
+  },
+  {
+    "authority_id": "WTO-DSU-3",
+    "title": "Understanding on Rules and Procedures Governing the Settlement of Disputes (DSU)",
+    "article": "Article 3",
+    "excerpt": "争端解决机制旨在维护多边贸易体制的安全与可预见性，并依国际公法解释惯例澄清既有条款。",
+    "effective_status": "effective",
+    "official_url": "https://www-server1.wto.org/english/docs_e/legal_e/dsu_e.htm",
+    "jurisdiction": "wto"
+  },
+  {
+    "authority_id": "WTO-DSU-4",
+    "title": "Understanding on Rules and Procedures Governing the Settlement of Disputes (DSU)",
+    "article": "Article 4",
+    "excerpt": "成员在诉诸争端解决前应请求并善意进行磋商；磋商规则构成争端程序的前置环节。",
+    "effective_status": "effective",
+    "official_url": "https://www-server1.wto.org/english/docs_e/legal_e/dsu_e.htm",
+    "jurisdiction": "wto"
+  },
+  {
+    "authority_id": "WTO-GATT-1994-I",
+    "title": "General Agreement on Tariffs and Trade 1994 (GATT 1994)",
+    "article": "Article I",
+    "excerpt": "最惠国待遇：对某一成员产品给予的优惠，应立即、无条件给予所有其他成员的同类产品。",
+    "effective_status": "effective",
+    "official_url": "https://www.wto.org/english/docs_e/legal_e/gatt47_01_e.htm",
+    "jurisdiction": "wto"
+  },
+  {
+    "authority_id": "WTO-GATT-1994-III",
+    "title": "General Agreement on Tariffs and Trade 1994 (GATT 1994)",
+    "article": "Article III",
+    "excerpt": "国民待遇：进口产品在内国税费和国内规制方面适用国民待遇纪律。",
+    "effective_status": "effective",
+    "official_url": "https://www.wto.org/english/docs_e/legal_e/gatt47_01_e.htm",
+    "jurisdiction": "wto"
+  },
+  {
+    "authority_id": "WTO-GATT-1994-XI",
+    "title": "General Agreement on Tariffs and Trade 1994 (GATT 1994)",
+    "article": "Article XI",
+    "excerpt": "数量限制：一般禁止成员通过配额、进出口许可证或其他措施维持进口或出口数量限制。",
+    "effective_status": "effective",
+    "official_url": "https://www.wto.org/english/docs_e/legal_e/gatt47_01_e.htm",
+    "jurisdiction": "wto"
+  },
+  {
+    "authority_id": "WTO-AD-3",
+    "title": "Agreement on Implementation of Article VI of GATT 1994 (Anti-Dumping Agreement)",
+    "article": "Article 3",
+    "excerpt": "损害认定应基于积极证据，并对倾销进口数量、价格影响及对国内产业影响作客观审查。",
+    "effective_status": "effective",
+    "official_url": "https://www.wto.org/english/docs_e/legal_e/adp_e.htm",
+    "jurisdiction": "wto"
+  },
+  {
+    "authority_id": "WTO-SCM-1",
+    "title": "Agreement on Subsidies and Countervailing Measures (SCM Agreement)",
+    "article": "Article 1",
+    "excerpt": "补贴定义涉及政府或公共机构财政资助或收入/价格支持，并须产生利益。",
+    "effective_status": "effective",
+    "official_url": "https://www.wto.org/english/docs_e/legal_e/scm_e.htm",
+    "jurisdiction": "wto"
+  },
+  {
+    "authority_id": "WTO-SG-2",
+    "title": "Agreement on Safeguards",
+    "article": "Article 2",
+    "excerpt": "保障措施以进口数量增加并造成或威胁造成国内产业严重损害为条件，并原则上不区分来源适用。",
+    "effective_status": "effective",
+    "official_url": "https://www-server1.wto.org/english/docs_e/legal_e/sg_e.htm",
+    "jurisdiction": "wto"
+  }
+]
