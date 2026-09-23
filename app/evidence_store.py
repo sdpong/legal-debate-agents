@@ -5,6 +5,7 @@ from pathlib import Path
 from pypdf import PdfReader
 from fastapi import UploadFile
 from .models import Evidence
+from .ocr import read_with_vision, OcrError
 
 class EvidenceStore:
     def __init__(self, root: str = "data/evidence"):
@@ -32,7 +33,7 @@ class EvidenceStore:
             return text, f"pages=1-{len(pages)}"
         return data.decode("utf-8", errors="replace"), "text"
 
-    async def save(self, case_id: str, evidence_id: str, party: str, upload: UploadFile) -> Evidence:
+    async def save(self, case_id: str, evidence_id: str, party: str, upload: UploadFile, ocr: bool = False) -> Evidence:
         case_dir = self.root / self._safe_id(case_id)
         case_dir.mkdir(parents=True, exist_ok=True)
         data = await upload.read()
@@ -46,6 +47,11 @@ class EvidenceStore:
             status = "ready" if raw.strip() else "needs_ocr"
         except Exception:
             raw, locator, status = "", "unavailable", "needs_ocr"
+        if ocr:
+            try:
+                raw, locator = await read_with_vision(data, original_name, upload.content_type)
+                status = "ocr_ready"
+            except OcrError: raise
         redacted = self.redact(raw)
         record = Evidence(evidence_id=evidence_id, name=original_name, party=party, text=redacted, locator=locator)
         manifest = {"sha256": digest, "original_filename": original_name, "stored_file": original_path.name,

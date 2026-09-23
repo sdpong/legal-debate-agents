@@ -1,25 +1,4 @@
-const defaultApi = `${location.origin}/legal-debate-api`;
-let api = localStorage.getItem("legalDebateApi") || defaultApi;
-const timeline = document.querySelector("#timeline");
-const button = document.querySelector("#debate");
-const payload = {case_id:"CIVIL-2026-0001",dispute_type:"买卖合同纠纷",facts:"甲称乙未按合同约定支付货款。",issues:[{issue_id:"I-01",question:"乙是否逾期付款？",burden_of_proof:"甲证明合同、履行与到期欠款；乙证明付款或其他抗辩。"}],evidence:[],authorities:[]};
-const esc = value => String(value).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
-document.querySelector("#endpoint").addEventListener("click", () => {
-  const next = prompt("输入 LegalDebateAgents API 地址", api);
-  if (next) { api = next.replace(/\/$/, ""); localStorage.setItem("legalDebateApi", api); }
-});
-document.querySelector("#evidence").addEventListener("click", () => alert("后端接口：POST /cases/{case_id}/evidence（上传并登记哈希）"));
-button.addEventListener("click", async () => {
-  button.disabled = true; button.textContent = "辩论中…";
-  try {
-    const response = await fetch(`${api}/cases/debate`, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
-    if (!response.ok) throw new Error(await response.text());
-    const result = await response.json();
-    const p = result.plaintiff_arguments[0]?.position || "无原告陈述";
-    const d = result.defendant_arguments[0]?.position || "无被告陈述";
-    const h = result.holdings[0];
-    timeline.innerHTML = `<div class="turn"><span class="tag pl">原告代理人</span><p>${esc(p)}</p></div><div class="turn"><span class="tag df">被告代理人</span><p>${esc(d)}</p></div><div class="turn"><span class="tag jd">法官 Agent · ${esc(h.outcome)}</span><p>${esc(h.reasoning)}</p></div>`;
-    document.querySelector("#holding").textContent = h.reasoning;
-  } catch (error) { alert(`无法连接 API：${error.message}`); }
-  finally { button.disabled = false; button.textContent = "运行下一轮辩论"; }
-});
+let api=localStorage.getItem("legalDebateApi")||`${location.origin}/legal-debate-api`;const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+$("#endpoint").onclick=()=>{const n=prompt("输入 API 地址",api);if(n){api=n.replace(/\/$/,"");localStorage.setItem("legalDebateApi",api)}};
+$("#upload").onclick=async()=>{const f=$("#file").files[0],out=$("#uploadStatus");if(!f)return out.textContent="请选择证据文件。";out.textContent="上传并登记中…";const d=new FormData;d.append("evidence_id",`E-${Date.now()}`);d.append("party",$("#party").value);d.append("ocr",$("#ocr").checked);d.append("file",f);try{const r=await fetch(`${api}/cases/marital-property-demo/evidence`,{method:"POST",body:d});if(!r.ok)throw Error(await r.text());const x=await r.json();out.className="ok";out.textContent=`已登记 ${x.evidence_id} · ${x.locator}`;}catch(e){out.className="hint";out.textContent=`上传失败：${e.message}`}};
+$("#debate").onclick=async()=>{const q=$("#issue").value,asset=$("#asset").value,tl=$("#timeline");try{const r=await fetch(`${api}/cases/debate`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({case_id:"marital-property-demo",dispute_type:$("#cause").value,facts:`争议财产类型：${asset}。`,issues:[{issue_id:"M-01",question:q,burden_of_proof:"主张财产性质及分割的一方，应就取得时间、资金来源、约定及用途等举证。"}]})});if(!r.ok)throw Error(await r.text());const x=await r.json(),p=x.plaintiff_arguments[0].position,d=x.defendant_arguments[0].position,h=x.holdings[0];tl.innerHTML=`<div class="turn">原告：${esc(p)}</div><div class="turn def">被告：${esc(d)}</div><div class="turn judge">法官辅助：${esc(h.reasoning)}</div>`}catch(e){alert(`辩论请求失败：${e.message}`)}};

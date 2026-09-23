@@ -6,6 +6,7 @@ from .providers import ModelRoute, ProviderError
 from .graph import run_case
 from .knowledge import AuthorityStore
 from .evidence_store import EvidenceStore
+from .ocr import OcrError
 from .audit import AuditStore
 
 app = FastAPI(title="LegalDebateAgents", version="0.1.0")
@@ -36,12 +37,13 @@ def search_authorities(q: str = Query(min_length=2), limit: int = Query(default=
     return store.search(q, limit, jurisdiction=jurisdiction)
 
 @app.post("/cases/{case_id}/evidence", response_model=Evidence)
-async def upload_evidence(case_id: str, evidence_id: str = Form(), party: str = Form(), file: UploadFile = File()):
+async def upload_evidence(case_id: str, evidence_id: str = Form(), party: str = Form(), ocr: bool = Form(False), file: UploadFile = File()):
     if party not in {"plaintiff", "defendant", "neutral"}:
         raise HTTPException(status_code=422, detail="party must be plaintiff, defendant, or neutral")
     try:
-        evidence = await evidence_store.save(case_id, evidence_id, party, file)
+        evidence = await evidence_store.save(case_id, evidence_id, party, file, ocr)
         return evidence
+    except OcrError as e: raise HTTPException(status_code=503, detail=str(e))
     except ValueError as e: raise HTTPException(status_code=422, detail=str(e))
 
 @app.get("/cases/{case_id}/audit")
