@@ -72,6 +72,8 @@ curl http://127.0.0.1:8188/legal-debate-api/health
 
 容器把工作台暴露在本机 `127.0.0.1:8188/legal-debate/`，API 暴露在 `127.0.0.1:8188/legal-debate-api/`。将 `deploy/Caddyfile.snippet` 合并进 `app.nonsoft.com` 的既有 Caddy 站点配置并 reload 后，外网入口即为 `https://app.nonsoft.com/legal-debate/`。不要直接暴露 8000 端口，且在上线真实 Key 前先设置 `CORS_ORIGINS`。
 
+首次容器启动会自动合并内置中国法示例与 WTO 核心协定索引到空的法规库；已存在的法规库不会被覆盖。
+
 ## 人工复核与审计链
 
 每次 `/cases/debate` 完成后，系统会向 `data/audit/{case_id}.jsonl` 追加一条哈希链记录。它保存证据文本哈希、法条效力状态与官方 URL、角色模型路由、输出哈希和前序哈希；原始证据与提示词不会复制进审计日志。用 `GET /cases/{case_id}/audit` 读取记录并验证链完整性。生产环境应把该目录迁移到 WORM/对象锁存储，并为律师复核结论单独追加签名事件。
