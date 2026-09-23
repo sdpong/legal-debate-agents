@@ -10,6 +10,14 @@ from .audit import AuditStore
 
 app = FastAPI(title="LegalDebateAgents", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=os.getenv("CORS_ORIGINS", "http://127.0.0.1:8000,http://localhost:8000").split(","), allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
+
+@app.middleware("http")
+async def strip_reverse_proxy_prefix(request, call_next):
+    """Permit same-origin deployment under /legal-debate-api without duplicating routes."""
+    prefix = "/legal-debate-api"
+    if request.scope["path"] == prefix or request.scope["path"].startswith(prefix + "/"):
+        request.scope["path"] = request.scope["path"][len(prefix):] or "/"
+    return await call_next(request)
 store = AuthorityStore(os.getenv("AUTHORITY_STORE_PATH", "data/authorities.json"))
 evidence_store = EvidenceStore(os.getenv("EVIDENCE_STORE_PATH", "data/evidence"))
 audit_store = AuditStore(os.getenv("AUDIT_STORE_PATH", "data/audit"))
