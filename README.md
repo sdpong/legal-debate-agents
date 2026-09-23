@@ -60,7 +60,7 @@ pytest -q
 
 先启动 API：`uvicorn app.main:app --reload`。工作台的“连接 API”默认使用 `http://127.0.0.1:8000`，也可填入已部署的 HTTPS API 地址。生产环境通过 `CORS_ORIGINS` 设置允许访问的工作台域名（英文逗号分隔），不要使用通配符。
 
-## Docker 与 app.nonsoft.com 测试部署
+## Docker 部署
 
 ```bash
 cd legal-debate-agents
@@ -70,11 +70,9 @@ curl http://127.0.0.1:8188/legal-debate/
 curl http://127.0.0.1:8188/legal-debate-api/health
 ```
 
-容器把工作台暴露在本机 `127.0.0.1:8188/legal-debate/`，API 暴露在 `127.0.0.1:8188/legal-debate-api/`。将 `deploy/Caddyfile.snippet` 合并进 `app.nonsoft.com` 的既有 Caddy 站点配置并 reload 后，外网入口即为 `https://app.nonsoft.com/legal-debate/`。不要直接暴露 8000 端口，且在上线真实 Key 前先设置 `CORS_ORIGINS`。
+容器把工作台暴露在本机 `127.0.0.1:8188/legal-debate/`，API 暴露在 `127.0.0.1:8188/legal-debate-api/`。生产环境应通过反向代理提供 HTTPS，不要直接暴露 8000 端口，并在上线真实 Key 前设置 `CORS_ORIGINS`。
 
 首次容器启动会自动合并内置中国法示例与 WTO 核心协定索引到空的法规库；已存在的法规库不会被覆盖。
-
-若服务器已有名为 `deploy_internal` 的 Caddy 内部 Docker 网络，使用 `deploy/docker-compose.server.yml` 只启动 API 容器；静态文件由既有 Caddy 容器挂载目录托管。该部署模式不会争用 80/443 端口。
 
 ## 人工复核与审计链
 
