@@ -1,0 +1,24 @@
+services:
+  legal-debate-api:
+    build: ..
+    env_file: ../.env
+    environment:
+      AUTHORITY_STORE_PATH: /var/legal-debate/authorities.json
+      EVIDENCE_STORE_PATH: /var/legal-debate/evidence
+      AUDIT_STORE_PATH: /var/legal-debate/audit
+      CORS_ORIGINS: https://app.nonsoft.com
+    volumes:
+      - legal_debate_state:/var/legal-debate
+    restart: unless-stopped
+    networks:
+      internal:
+        aliases:
+          - legal-debate-api
+
+networks:
+  internal:
+    external: true
+    name: deploy_internal
+
+volumes:
+  legal_debate_state:

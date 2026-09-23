@@ -74,6 +74,8 @@ curl http://127.0.0.1:8188/legal-debate-api/health
 
 首次容器启动会自动合并内置中国法示例与 WTO 核心协定索引到空的法规库；已存在的法规库不会被覆盖。
 
+若服务器已有名为 `deploy_internal` 的 Caddy 内部 Docker 网络，使用 `deploy/docker-compose.server.yml` 只启动 API 容器；静态文件由既有 Caddy 容器挂载目录托管。该部署模式不会争用 80/443 端口。
+
 ## 人工复核与审计链
 
 每次 `/cases/debate` 完成后，系统会向 `data/audit/{case_id}.jsonl` 追加一条哈希链记录。它保存证据文本哈希、法条效力状态与官方 URL、角色模型路由、输出哈希和前序哈希；原始证据与提示词不会复制进审计日志。用 `GET /cases/{case_id}/audit` 读取记录并验证链完整性。生产环境应把该目录迁移到 WORM/对象锁存储，并为律师复核结论单独追加签名事件。
