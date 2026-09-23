@@ -30,7 +30,7 @@
 ## 本地运行（macOS）
 
 ```bash
-cd /Volumes/S7/Codex/legal-debate-agents
+cd legal-debate-agents
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
